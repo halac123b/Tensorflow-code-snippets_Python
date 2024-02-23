@@ -30,3 +30,36 @@ model = tf.keras.models.Sequential(
         tf.keras.layers.Dense(10),
     ]
 )
+
+# For each example the model returns a vector of "logits" or "log-odds" scores, one for each class.
+# logit: raw (non-normalized) predictions that a classification model generates, then passed to a normalization function
+# log-odds: the logarithm of the odds of some event.
+# odds: refers to the ratio of the probability of success (p) to the probability of failure (1-p)
+predictions = model(x_train[:1]).numpy()
+print(predictions)
+
+# The tf.nn.softmax (normalization function) converts these logits to "probabilities" for each class
+tf.nn.softmax(predictions).numpy()
+# It is possible to bake the tf.nn.softmax function into the activation function for the last layer of the network
+# but not recommended: provide an exact and numerically stable loss calculation for all models when using a softmax output
+
+# The loss function takes a vector of ground truth values and a vector of logits and returns a scalar loss for each example.
+# This untrained model gives probabilities close to random
+loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+loss_fn(y_train[:1], predictions).numpy()
+
+# Adam là một thuật toán tối ưu hóa được sử dụng phổ biến trong huấn luyện mạng neural. Adam là viết tắt của "Adaptive Moment Estimation". Thuật toán này kết hợp cả gradient descent với momentum và RMSprop để cập nhật trọng số của mạng neural.
+# Before you start training, configure and compile the model
+model.compile(optimizer="adam", loss=loss_fn, metrics=["accuracy"])
+
+#  train neural network model
+model.fit(x_train, y_train, epochs=5)
+
+# check the model's performance, usually on a validation set or test set.
+# verbose: This parameter controls the verbosity mode, which determines how much information is displayed during evaluation. It can take on three possible values:
+# 0: silent, 1: progress bar, 2: Detailed information
+model.evaluate(x_test, y_test, verbose=2)
+
+# Another model to return a probability, by wrap the trained model, and attach the softmax to it
+probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
+print(probability_model(x_test[:5]))
