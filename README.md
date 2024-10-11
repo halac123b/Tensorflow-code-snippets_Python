@@ -2,7 +2,5 @@
 
 List of modules:
 
-<ol>
-  <li>Getting started with Tensorflow and Keras</li>
-  <li>Classify images of cloth </li>
-</ol>
+1. Getting started with Tensorflow and Keras
+2. Classify images of cloth

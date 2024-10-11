@@ -32,3 +32,5 @@ class_names = [
 print(train_images.shape)
 # Tương ứng với 60000 image, ta có 60000 label thuộc 1 trong 9 class
 print(len(train_labels))
+
+plt.figure()

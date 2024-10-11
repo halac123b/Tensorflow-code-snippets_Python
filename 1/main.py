@@ -18,7 +18,7 @@ model = tf.keras.models.Sequential(
     [
         # Flatten layer: used to convert multidimensional data into a one-dimensional array
         # It is commonly used as the first layer in a neural network model when dealing with input data that has multiple dimensions, such as images.
-        # input_shape: The shape of the input data (images with dimensions of 28px by 28px)
+        # input_shape: The shape of the input data (images with dimensions of 28x28 px)
         tf.keras.layers.Flatten(input_shape=(28, 28)),
         # Fully connected layer
         # 128: number of neurons
